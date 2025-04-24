@@ -9,10 +9,11 @@
     },
     "authors": [
         {
-            "name": "anibal yucra"
+            "name": "roliber yucra"
         }
     ],
     "require": {
-        "phpmailer/phpmailer": "^6.9"
+        "phpmailer/phpmailer": "^6.9",
+        "tecnickcom/tcpdf": "^6.9"
     }
 }
