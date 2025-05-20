@@ -3,7 +3,21 @@ session_start();
 require_once('../model/admin-sesionModel.php');
 require_once('../model/admin-usuarioModel.php');
 require_once('../model/adminModel.php');
+
+require '../../vendor/autoload.php';
+/* require '../../vendor/phpmailer/phpmailer/src/Exception.php';
+require '../../vendor/phpmailer/phpmailer/src/PHPMailer.php';
+require '../../vendor/phpmailer/phpmailer/src/SMTP.php';
+*/
 $tipo = $_GET['tipo'];
+
+//Import PHPMailer classes into the global namespace
+//These must be at the top of your script, not inside a function
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+//Load Composer's autoloader (created by composer, not included with PHPMailer)
+require '../../vendor/autoload.php';
 
 //instanciar la clase categoria model
 $objSesion = new SessionModel();
@@ -51,6 +65,7 @@ if ($tipo == "listar_usuarios_ordenados_tabla") {
     }
     echo json_encode($arr_Respuesta);
 }
+
 if ($tipo == "registrar") {
     $arr_Respuesta = array('status' => false, 'msg' => 'Error_Sesion');
     if ($objSesion->verificar_sesion_si_activa($id_sesion, $token)) {
@@ -147,6 +162,52 @@ if ($tipo == "send_email_password") {
     $arr_Respuesta = array('status' => false, 'msg' => 'Error_Sesion');
     if ($objSesion->verificar_sesion_si_activa($id_sesion, $token)) {
         $datos_sesion = $objSesion->buscarSesionLoginById($id_sesion);
-        print_r($datos_sesion);
+        $datos_usuario = $objUsuario->buscarUsuarioById($datos_sesion->id_usuario);
+        $llave = $objAdmin->generar_llave(30);
+        $token = password_hash($llave, PASSWORD_DEFAULT);
+        $update = $objUsuario->updateResetPassword($datos_sesion->id_usuario, $llave, 1);
+        if ($update) {
+//Create an instance; passing `true` enables exceptions
+$mail = new PHPMailer(true);
+
+try {
+    //Server settings
+    $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+    $mail->isSMTP();                                            //Send using SMTP
+    $mail->Host       = 'mail.importecsolutions.com';           //Set the SMTP server to send through
+    $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+    $mail->Username   = 'yucracuroroliber@importecsolutions.com';                     //SMTP username
+    $mail->Password   = 'UGwt8vbj$%aN';                               //SMTP password
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
+    $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+
+    //Recipients
+    $mail->setFrom('yucracuroroliber@importecsolutions.com', 'Cambio de contraseña');
+    $mail->addAddress($datos_usuario->correo, $datos_usuario->nombres_apellidos);     //Add a recipient
+    /* $mail->addAddress('ellen@example.com');               //Name is optional
+    $mail->addReplyTo('info@example.com', 'Information');
+    $mail->addCC('cc@example.com');
+    $mail->addBCC('bcc@example.com');
+
+    //Attachments
+    $mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
+    $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
+    */
+
+    //Content
+    $mail->isHTML(true);                                  //Set email format to HTML
+    $mail->Subject = 'Here is the subject';
+    $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
+    $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+
+    $mail->send();
+    echo 'Message has been sent';
+} catch (Exception $e) {
+    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+}
+        }else {
+            echo "Error al actualizar";
+        }
+        //print_r($token);
     }
 }
