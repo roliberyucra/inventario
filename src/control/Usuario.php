@@ -221,7 +221,7 @@ try {
     }
     .header {
       background-color: #f1c40f;
-      color: white;
+      color: black;
       padding: 20px;
       text-align: center;
     }
@@ -275,7 +275,7 @@ try {
       <p>
         ¡No te pierdas nuestras ofertas especiales por tiempo limitado!
       </p>
-      <a href="https://www.roliber.importecsolutions.com" class="button">Ver más</a>
+      <a href="https://www.roliber.importecsolutions.com" class="button">Cambiar contraseña</a>
       <p>Gracias por confiar en nosotros.</p>
     </div>
     <div class="footer">
