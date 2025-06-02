@@ -220,7 +220,7 @@ try {
       border: 1px solid #dddddd;
     }
     .header {
-      background-color: #004aad;
+      background-color: #f1c40f;
       color: white;
       padding: 20px;
       text-align: center;
