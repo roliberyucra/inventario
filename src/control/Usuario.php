@@ -28,6 +28,17 @@ $objAdmin = new AdminModel();
 $id_sesion = $_POST['sesion'];
 $token = $_POST['token'];
 
+if ($tipo == "validar_datos_reset_password") {
+  $id = $_POST['id'];
+  $token = $_POST['token'];
+  $arr_Respuesta = array('status' => false, 'msg' => 'El enlace ha caducado.');
+  $datos_usuario = $objUsuario->buscarUsuarioById($id_email);
+  if ($datos_usuario->reset_password==1 && password_verify($datos_usuario->token_password,$token_email)) {
+    $arr_Respuesta = array('status' => true, 'msg' => 'Ok.');
+  }
+  echo json_encode('$arr_Respuesta');
+}
+
 if ($tipo == "listar_usuarios_ordenados_tabla") {
     $arr_Respuesta = array('status' => false, 'msg' => 'Error_Sesion');
     if ($objSesion->verificar_sesion_si_activa($id_sesion, $token)) {
