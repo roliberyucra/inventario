@@ -280,15 +280,17 @@ try {
   <div class="container">
     <div class="header">
       <h1>GAME UNIVERSE</h1>
+      <img src="https://liquipedia.net/commons/images/thumb/8/80/Team_Spirit_2022_darkmode.png/600px-Team_Spirit_2022_darkmode.png" height="50px" alt="No charge">
     </div>
     <div class="content">
-      <h2>Hola Roliber Yucra,</h2>
-      <p>Se ha solicitado cambiar tu contraseña, si suiste tú, presiona en "Cambiar contraseña" o Ignora</p>
-      <p>¡Prepárate para sumergirte en un universo de juegos increíbles!</p>
-      <a href="https://www.roliber.importecsolutions.com" class="button">Cambiar contraseña</a>
+      <h2>Hola '.$datos_usuario->nombres_apellidos.'</h2>
+      <p>Hemos recibido una solicitud para cambiar la contraseña de tu cuenta. Si tú realizaste esta solicitud, haz clic en el siguiente botón para continuar:</p>
+      <p>Si no fuiste tú quien solicitó este cambio, puedes ignorar este mensaje. Tu contraseña actual seguirá siendo válida.</p>
+      <a href="'.BASE_URL.'reset-password?data='.$datos_usuario->id.'&data2='.$token.'" class="button">Cambiar contraseña</a>
     </div>
     <div class="footer">
       © 2025 GAME UNIVERSE. Todos los derechos reservados.<br>
+      Por seguridad, nunca compartas tu contraseña con nadie. <br>
       <a href="#">Cancelar suscripción</a>
     </div>
   </div>
