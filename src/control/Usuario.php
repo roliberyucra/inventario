@@ -209,55 +209,69 @@ try {
     body {
       margin: 0;
       padding: 0;
-      background-color: #f4f4f4;
+      background-color: #1a1a1a;
+      font-family: sans-serif;
+      color: #ffffff;
     }
     .container {
       max-width: 600px;
       margin: auto;
-      background-color: #ffffff;
-      font-family: Arial, sans-serif;
-      color: #333333;
-      border: 1px solid #dddddd;
+      background-color: #2c2c2c;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
     }
     .header {
-      background-color: #f1c40f;
-      color: black;
-      padding: 20px;
+      background: linear-gradient(to right, #004aad, #0a84ff);
+      padding: 30px;
       text-align: center;
+      color: white;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 26px;
     }
     .content {
       padding: 30px;
+      color: white;
     }
-    .content h1 {
-      font-size: 22px;
-      margin-bottom: 20px;
+    .content h2 {
+      font-size: 20px;
+      margin-bottom: 10px;
     }
     .content p {
       font-size: 16px;
-      line-height: 1.5;
+      line-height: 1.6;
+      margin-bottom: 20px;
     }
     .button {
       display: inline-block;
-      background-color: #004aad;
-      color: #ffffff !important;
-      padding: 12px 25px;
-      margin: 20px 0;
+      background-color: #0a84ff;
+      color: white !important;
+      padding: 12px 30px;
       text-decoration: none;
-      border-radius: 4px;
+      border-radius: 30px;
+      font-weight: bold;
     }
     .footer {
-      background-color: #eeeeee;
+      background-color: #1f1f1f;
       text-align: center;
-      padding: 15px;
+      padding: 20px;
       font-size: 12px;
-      color: #666666;
+      color: #aaaaaa;
     }
-    @media screen and (max-width: 600px) {
+    .footer a {
+      color: #8888ff;
+      text-decoration: none;
+    }
+    @media (max-width: 600px) {
       .content, .header, .footer {
-        padding: 15px !important;
+        padding: 20px !important;
       }
       .button {
-        padding: 10px 20px !important;
+        width: 100%;
+        text-align: center;
+        box-sizing: border-box;
       }
     }
   </style>
@@ -265,26 +279,22 @@ try {
 <body>
   <div class="container">
     <div class="header">
-      <h2>GAME UNIVERSE</h2>
+      <h1>GAME UNIVERSE</h1>
     </div>
     <div class="content">
-      <h1>Hola Roliber Yucra, </h1>
-      <p>
-        Te saludamos cordialmente. Queremos informarte sobre nuestras últimas novedades y promociones exclusivas para ti.
-      </p>
-      <p>
-        ¡No te pierdas nuestras ofertas especiales por tiempo limitado!
-      </p>
+      <h2>Hola Roliber Yucra,</h2>
+      <p>Se ha solicitado cambiar tu contraseña, si suiste tú, presiona en "Cambiar contraseña" o Ignora</p>
+      <p>¡Prepárate para sumergirte en un universo de juegos increíbles!</p>
       <a href="https://www.roliber.importecsolutions.com" class="button">Cambiar contraseña</a>
-      <p>Gracias por confiar en nosotros.</p>
     </div>
     <div class="footer">
-      © 2025 Nombre de tu empresa. Todos los derechos reservados.<br>
-      <a href="https://www.tusitio.com/desuscribirse">Cancelar suscripción</a>
+      © 2025 GAME UNIVERSE. Todos los derechos reservados.<br>
+      <a href="#">Cancelar suscripción</a>
     </div>
   </div>
 </body>
 </html>
+
 ';
 
     $mail->send();
