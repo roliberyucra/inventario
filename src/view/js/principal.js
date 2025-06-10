@@ -168,6 +168,10 @@ function cargar_sede_filtro(sedes) {
 async function validar_datos_reset_password() {
     let id = document.getElementById('data').value;
     let token = document.getElementById('data2').value;
+    const formData = new FormData();
+    formData.append('id', id);
+    formData.append('token', token);
+    formData.append('sesion', '');
     try {
         let respuesta = await fetch(base_url_server + 'src/control/Usuario.php?tipo=validar_datos_reset_password', {
             method: 'POST',
@@ -176,11 +180,65 @@ async function validar_datos_reset_password() {
             body: formData
         });
         let json = await respuesta.json();
-        if (json.status) {
+        if (json.status == false) {
+            Swal.fire({
+                type: 'error',
+                title: 'Error de Enlace',
+                text: "Enlace caducado, verifique su correo.",
+                confirmButtonClass: 'btn btn-confirm mt-2',
+                footer: '',
+                timer: 2500
+            });
+            let formulario = document.getElementById('frm_reset_password');
+            formulario.innerHTML=
+            `GSDYSDBSYBH`;
+            //location.replace(base_url + "login");
         }
     } catch (error) {
         console.log("Error al validar datos" + e);
     }
 }
 
+async function validar_inputs_password() {
+    let pass1 = document.getElementById('password').value;
+    let pass2 = document.getElementById('password1').value;
+    if (pass1 !== pass2) {
+        Swal.fire({
+            type: 'error',
+            title: 'Error de Validación',
+            text: "Las contraseñas no coinciden.",
+            footer: '',
+            timer: 2000
+        });
+        return;
+    }
+    if (pass1.length < 8 && pass2.length < 8) {
+        Swal.fire({
+            type: 'error',
+            title: 'Error de Validación',
+            text: "La contraseña debe tener un mínimo de 8 carácteres.",
+            footer: '',
+            timer: 2000
+        });
+        return;
+    } else {
+        actualizar_password();
+    }
+}
+
+async function actualizar_password() {
+    Swal.fire({
+        type: 'success',
+        title: '',
+        text: "Contraseña actualizo correctamente.",
+        footer: '',
+        timer: 2000
+    });
+    return;
+
+    //ENVIAR DATOS DE SU PASSWORD Y ID AL CONTROLADOR USUARIO
+    //RECIBIR DATOS Y ENCRIPTAR LA NUEVA CONTRASEÑA
+    //GUARDAR EN LA BASE DE DATOS Y ACTUALIZAR CAMPOS DE reset_password y token_password
+    //NOTIFICAR AL USUARIO SOBRE EL ESTADO DEL PROCESO
+}
 // ------------------------------------------- FIN DE DATOS DE CARGA PARA FILTRO DE BUSQUEDA -----------------------------------------------

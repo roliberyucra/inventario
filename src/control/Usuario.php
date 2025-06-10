@@ -29,14 +29,14 @@ $id_sesion = $_POST['sesion'];
 $token = $_POST['token'];
 
 if ($tipo == "validar_datos_reset_password") {
-  $id = $_POST['id'];
-  $token = $_POST['token'];
+  $id_email = $_POST['id'];
+  $token_email = $_POST['token'];
   $arr_Respuesta = array('status' => false, 'msg' => 'El enlace ha caducado.');
   $datos_usuario = $objUsuario->buscarUsuarioById($id_email);
   if ($datos_usuario->reset_password==1 && password_verify($datos_usuario->token_password,$token_email)) {
     $arr_Respuesta = array('status' => true, 'msg' => 'Ok.');
   }
-  echo json_encode('$arr_Respuesta');
+  echo json_encode($arr_Respuesta);
 }
 
 if ($tipo == "listar_usuarios_ordenados_tabla") {
@@ -297,7 +297,7 @@ try {
       <h2>Hola '.$datos_usuario->nombres_apellidos.'</h2>
       <p>Hemos recibido una solicitud para cambiar la contraseña de tu cuenta. Si tú realizaste esta solicitud, haz clic en el siguiente botón para continuar:</p>
       <p>Si no fuiste tú quien solicitó este cambio, puedes ignorar este mensaje. Tu contraseña actual seguirá siendo válida.</p>
-      <a href="'.BASE_URL.'reset-password?data='.$datos_usuario->id.'&data2='.$token.'" class="button">Cambiar contraseña</a>
+      <a href="'.BASE_URL.'reset-password/?data='.$datos_usuario->id.'&data2='. urlencode($token) .'" class="button">Cambiar contraseña</a>
     </div>
     <div class="footer">
       © 2025 GAME UNIVERSE. Todos los derechos reservados.<br>
