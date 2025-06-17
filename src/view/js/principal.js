@@ -241,4 +241,77 @@ async function actualizar_password() {
     //GUARDAR EN LA BASE DE DATOS Y ACTUALIZAR CAMPOS DE reset_password y token_password
     //NOTIFICAR AL USUARIO SOBRE EL ESTADO DEL PROCESO
 }
+
+async function actualizar_password() {
+    // Obtener los datos necesarios
+    let id = document.getElementById('data').value;
+    let token = document.getElementById('data2').value;
+    let nueva_password = document.getElementById('password').value;
+    
+    // Crear FormData con la información
+    const formData = new FormData();
+    formData.append('id', id);
+    formData.append('token', token);
+    formData.append('password', nueva_password);
+    formData.append('sesion', '');
+    
+    try {
+        // Mostrar loading
+        Swal.fire({
+            title: 'Actualizando...',
+            text: 'Por favor espere',
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            willOpen: () => {
+                Swal.showLoading();
+            }
+        });
+        
+        // Enviar datos al controlador
+        let respuesta = await fetch(base_url_server + 'src/control/Usuario.php?tipo=actualizar_password_reset', {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            body: formData
+        });
+        
+        let json = await respuesta.json();
+        
+        if (json.status == true) {
+            // Éxito - contraseña actualizada
+            Swal.fire({
+                type: 'success',
+                title: 'Éxito',
+                text: json.msg,
+                confirmButtonClass: 'btn btn-confirm mt-2',
+                footer: '',
+                timer: 2000
+            }).then(() => {
+                // Redirigir al login después del éxito
+                location.replace(base_url + "login");
+            });
+        } else {
+            // Error al actualizar
+            Swal.fire({
+                type: 'error',
+                title: 'Error',
+                text: json.msg,
+                confirmButtonClass: 'btn btn-confirm mt-2',
+                footer: '',
+                timer: 2000
+            });
+        }
+        
+    } catch (error) {
+        console.log("Error al actualizar contraseña: " + error);
+        Swal.fire({
+            type: 'error',
+            title: 'Error',
+            text: 'Error de conexión. Intente nuevamente.',
+            confirmButtonClass: 'btn btn-confirm mt-2',
+            footer: '',
+            timer: 2000
+        });
+    }
+}
 // ------------------------------------------- FIN DE DATOS DE CARGA PARA FILTRO DE BUSQUEDA -----------------------------------------------
