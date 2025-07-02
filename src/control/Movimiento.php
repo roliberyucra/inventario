@@ -222,13 +222,18 @@ if ($tipo == "buscar_movimiento_id") {
         foreach ($arrDetalle as $bien) {
             $id_bien = $bien->id_bien;
             $res_bien = $objBien->buscarBienById($id_bien);
+            if ($res_bien) {
+                array_push($arr_bienes, $res_bien); // Uso de array_push para agregar el bien
+            }
         }
+        //buscar los detalles de movimiento
         $arr_Respuesta['movimiento'] = $arrMovimiento;
         $arr_Respuesta['amb_origen'] = $arrAmbOrigen;
         $arr_Respuesta['amb_destino'] = $arrAmbDestino;
         $arr_Respuesta['datos_usuario'] = $arrUsuario;
         $arr_Respuesta['datos_ies'] = $arrIes;
         $arr_Respuesta['detalle'] = $arrDetalle;
+        $arr_Respuesta['bienes'] = $arr_bienes;
         $arr_Respuesta['status'] = true;
         $arr_Respuesta['msg'] = 'correcto';
     }
