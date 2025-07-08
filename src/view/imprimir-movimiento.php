@@ -159,4 +159,9 @@ $curl = curl_init(); //inicia la sesión cURL
     require_once('./vendor/tecnickcom/tcpdf/tcpdf.php');
 
     $pdf = new TCPDF();
+
+    // SET DOCUMENT INFORMATION
+    $pdf->setCreator(PDF_AUTHOR);
+    $pdf->setAuthor('Nerio Yucra');
+    $pdf->setTitle('Reporte de Movimientos');
 }
