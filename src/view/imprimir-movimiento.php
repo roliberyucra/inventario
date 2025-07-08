@@ -164,4 +164,13 @@ $curl = curl_init(); //inicia la sesión cURL
     $pdf->setCreator(PDF_AUTHOR);
     $pdf->setAuthor('Nerio Yucra');
     $pdf->setTitle('Reporte de Movimientos');
+
+    // set margins
+    $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+
+    // set auto page breaks
+    $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+    
+    // set font
+    $pdf->SetFont('dejavusans', '', 10);
 }
