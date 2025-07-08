@@ -30,8 +30,132 @@ $curl = curl_init(); //inicia la sesión cURL
         echo "cURL Error #:" . $err; // mostramos el error
     } else {
         $respuesta = json_decode($response);
-        print_r($respuesta);
-        // en caso de funcionar correctamente
-        /*echo $_SESSION['sesion_sigi_id'];
-        echo $_SESSION['sesion_sigi_token'];*/
+        //print_r($respuesta);
+?>
+<!--
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Papeleta de Rotación de Bienes</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
     }
+    h2 {
+      text-align: center;
+      text-transform: uppercase;
+    }
+    .info {
+      margin-bottom: 10px;
+    }
+    .info span {
+      font-weight: bold;
+    }
+    .motivo {
+      margin: 20px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 40px;
+    }
+    table, th, td {
+      border: 1px solid black;
+    }
+    th, td {
+      padding: 8px;
+      text-align: center;
+    }
+    .firmas {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 60px;
+    }
+    .firmas div {
+      text-align: center;
+      width: 45%;
+    }
+    .fecha {
+      text-align: right;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Papeleta de Rotación de Bienes</h2>
+
+  <div class="info"><span>ENTIDAD : </span>DIRECCION REGIONAL DE EDUCACION - AYACUCHO</div>
+  <div class="info"><span>AREA : </span>OFICINA DE ADMINISTRACIÓN</div>
+  <div class="info"><span>ORIGEN : </span><?php echo $respuesta->amb_origen->codigo. " - " . $respuesta->amb_origen->detalle; ?></div>
+  <div class="info"><span>DESTINO : </span><?php echo $respuesta->amb_destino->codigo. " - " .$respuesta->amb_destino->detalle; ?></div>
+  <div class="motivo"><strong>MOTIVO (*) : </strong><?php echo $respuesta->movimiento->descripcion?></div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ITEM</th>
+        <th>CODIGO PATRIMONIAL</th>
+        <th>NOMBRE DEL BIEN</th>
+        <th>MARCA</th>
+        <th>COLOR</th>
+        <th>MODELO</th>
+        <th>ESTADO</th>
+      </tr>
+    </thead>
+    <tbody>
+        <?php
+        $contador = 1;
+        foreach ($respuesta->detalle as $bien) {
+            echo "<tr>";
+            echo "<td>". $contador ."</td>";
+            echo "<td>". $bien->cod_patrimonial ."</td>";
+            echo "<td>". $bien->denominacion ."</td>";
+            echo "<td>". $bien->marca ."</td>";
+            echo "<td>". $bien->color ."</td>";
+            echo "<td>". $bien->modelo ."</td>";
+            echo "<td>". $bien->estado ."</td>";
+            echo"</tr>";
+            $contador +=1;
+        }
+        ?>
+    </tbody>
+  </table>
+
+  <?php
+    $fechaMovimiento = new DateTime($respuesta->movimiento->fecha_registro);
+    $formatter = new IntlDateFormatter(
+      'es_ES',
+      IntlDateFormatter::LONG,
+      IntlDateFormatter::NONE,
+      'America/Lima',
+      IntlDateFormatter::GREGORIAN
+    );
+    $fechaFormateada = $formatter->format($fechaMovimiento);
+  ?>
+
+  <div class="fecha">
+    Ayacucho, <?php echo $fechaFormateada; ?>
+  </div>
+
+  <div class="firmas">
+    <div>
+      -----------------------------------<br>
+      ENTREGUÉ CONFORME
+    </div>
+    <div>
+      ------------------------------<br>
+      RECIBÍ CONFORME
+    </div>
+  </div>
+
+</body>
+</html>
+-->
+    <?php
+
+    require_once('./vendor/tecnickcom/tcpdf/tcpdf.php');
+
+}

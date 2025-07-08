@@ -215,6 +215,7 @@ if ($tipo == "buscar_movimiento_id") {
         $arrAmbDestino = $objAmbiente->buscarAmbienteById($arrMovimiento->id_ambiente_destino);
         $arrUsuario = $objUsuario->buscarUsuarioById($arrMovimiento->id_usuario_registro);
         $arrIes= $objInstitucion->buscarInstitucionById($arrMovimiento->id_ies);
+
         $arrDetalle = $objMovimiento->buscarDetalle_MovimientoByMovimiento($id_movimiento);
         $array_bienes = array();
         // Agregar $res_bien a $array_bienes
@@ -222,9 +223,7 @@ if ($tipo == "buscar_movimiento_id") {
         foreach ($arrDetalle as $bien) {
             $id_bien = $bien->id_bien;
             $res_bien = $objBien->buscarBienById($id_bien);
-            if ($res_bien) {
-                array_push($arr_bienes, $res_bien); // Uso de array_push para agregar el bien
-            }
+                array_push($array_bienes, $res_bien); // Uso de array_push para agregar el bien
         }
         //buscar los detalles de movimiento
         $arr_Respuesta['movimiento'] = $arrMovimiento;
@@ -232,8 +231,7 @@ if ($tipo == "buscar_movimiento_id") {
         $arr_Respuesta['amb_destino'] = $arrAmbDestino;
         $arr_Respuesta['datos_usuario'] = $arrUsuario;
         $arr_Respuesta['datos_ies'] = $arrIes;
-        $arr_Respuesta['detalle'] = $arrDetalle;
-        $arr_Respuesta['bienes'] = $arr_bienes;
+        $arr_Respuesta['detalle'] = $array_bienes;
         $arr_Respuesta['status'] = true;
         $arr_Respuesta['msg'] = 'correcto';
     }
