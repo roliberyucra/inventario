@@ -158,4 +158,5 @@ $curl = curl_init(); //inicia la sesión cURL
 
     require_once('./vendor/tecnickcom/tcpdf/tcpdf.php');
 
+    $pdf = new TCPDF();
 }
