@@ -31,9 +31,11 @@ $curl = curl_init(); //inicia la sesión cURL
     } else {
         $respuesta = json_decode($response);
         //print_r($respuesta);
-?>
-<!--
-<!DOCTYPE html>
+
+        $contenido_pdf = '';
+        $contenido_pdf .= '
+        
+        <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -43,61 +45,94 @@ $curl = curl_init(); //inicia la sesión cURL
       font-family: Arial, sans-serif;
       margin: 40px;
     }
+
+
     h2 {
       text-align: center;
       text-transform: uppercase;
     }
-    .info {
-      margin-bottom: 10px;
+
+
+    p {
+      margin: 8px 0;
     }
-    .info span {
-      font-weight: bold;
+
+
+    .subrayado {
+      display: inline-block;
+      min-width: 200px;
     }
-    .motivo {
-      margin: 20px 0;
-    }
+
+
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-bottom: 40px;
+      margin-top: 20px;
     }
+
+
     table, th, td {
       border: 1px solid black;
     }
+
+
     th, td {
       padding: 8px;
       text-align: center;
     }
+
+
     .firmas {
+      margin-top: 60px;
       display: flex;
       justify-content: space-between;
-      margin-top: 60px;
+      padding: 0 50px;
     }
-    .firmas div {
+
+
+    .firma {
       text-align: center;
-      width: 45%;
     }
-    .fecha {
+
+
+    .firma-linea {
+      margin-bottom: 5px;
+    }
+
+
+    .footer-fecha {
+      margin-top: 40px;
       text-align: right;
+      padding-right: 40px;
+    }
+
+
+    .motivo {
+      font-weight: bold;
       margin-top: 20px;
     }
   </style>
 </head>
 <body>
 
+
   <h2>Papeleta de Rotación de Bienes</h2>
 
-  <div class="info"><span>ENTIDAD : </span>DIRECCION REGIONAL DE EDUCACION - AYACUCHO</div>
-  <div class="info"><span>AREA : </span>OFICINA DE ADMINISTRACIÓN</div>
-  <div class="info"><span>ORIGEN : </span><?php echo $respuesta->amb_origen->codigo. " - " . $respuesta->amb_origen->detalle; ?></div>
-  <div class="info"><span>DESTINO : </span><?php echo $respuesta->amb_destino->codigo. " - " .$respuesta->amb_destino->detalle; ?></div>
-  <div class="motivo"><strong>MOTIVO (*) : </strong><?php echo $respuesta->movimiento->descripcion?></div>
 
-  <table>
+  <p>ENTIDAD <span class="subrayado">: DIRECCION REGIONAL DE EDUCACION - AYACUCHO</span></p>
+  <p>ÁREA <span class="subrayado">: OFICINA DE ADMINISTRACIÓN</span></p>
+  <p>ORIGEN <span class="subrayado">: '. $respuesta->amb_origen->codigo.' - '.$respuesta->amb_origen->detalle.'</span></p>
+  <p>DESTINO <span class="subrayado">: '. $respuesta->amb_destino->codigo. ' - '. $respuesta->amb_destino->detalle .'</span></p>
+
+
+  <p class="motivo">MOTIVO (*): <span class="subrayado">'. $respuesta->movimiento->descripcion.'</span></p>
+
+
+  <table border="1">
     <thead>
       <tr>
         <th>ITEM</th>
-        <th>CODIGO PATRIMONIAL</th>
+        <th>CÓDIGO PATRIMONIAL</th>
         <th>NOMBRE DEL BIEN</th>
         <th>MARCA</th>
         <th>COLOR</th>
@@ -106,71 +141,78 @@ $curl = curl_init(); //inicia la sesión cURL
       </tr>
     </thead>
     <tbody>
-        <?php
+        
+        ';
+     
         $contador = 1;
         foreach ($respuesta->detalle as $bien) {
-            echo "<tr>";
-            echo "<td>". $contador ."</td>";
-            echo "<td>". $bien->cod_patrimonial ."</td>";
-            echo "<td>". $bien->denominacion ."</td>";
-            echo "<td>". $bien->marca ."</td>";
-            echo "<td>". $bien->color ."</td>";
-            echo "<td>". $bien->modelo ."</td>";
-            echo "<td>". $bien->estado ."</td>";
-            echo"</tr>";
+            $contenido_pdf .= "<tr>";
+            $contenido_pdf .= "<td>".$contador."</td>";
+            $contenido_pdf .= "<td>".$bien->cod_patrimonial."</td>";
+            $contenido_pdf .= "<td>".$bien->denominacion."</td>";
+            $contenido_pdf .= "<td>".$bien->marca."</td>";
+            $contenido_pdf .= "<td>".$bien->color."</td>";
+            $contenido_pdf .= "<td>".$bien->modelo."</td>";
+            $contenido_pdf .= "<td>".$bien->estado_conservacion."</td>";
+            $contenido_pdf .= "</tr>";
             $contador +=1;
         }
-        ?>
+$contenido_pdf .= '
+
+
     </tbody>
   </table>
 
-  <?php
-    $fechaMovimiento = new DateTime($respuesta->movimiento->fecha_registro);
-    $formatter = new IntlDateFormatter(
-      'es_ES',
-      IntlDateFormatter::LONG,
-      IntlDateFormatter::NONE,
-      'America/Lima',
-      IntlDateFormatter::GREGORIAN
-    );
-    $fechaFormateada = $formatter->format($fechaMovimiento);
-  ?>
 
-  <div class="fecha">
-    Ayacucho, <?php echo $fechaFormateada; ?>
-  </div>
+  <p style="text-align: right; padding-right: 40px;">
+  Ayacucho,_____de____2025
+</p>
+
 
   <div class="firmas">
-    <div>
-      -----------------------------------<br>
-      ENTREGUÉ CONFORME
+    <div class="firma">
+      <div class="firma-linea">------------------------------</div>
+      <div>ENTREGUE CONFORME</div>
     </div>
-    <div>
-      ------------------------------<br>
-      RECIBÍ CONFORME
+    <div class="firma">
+      <div class="firma-linea">------------------------------</div>
+      <div>RECIBÍ CONFORME</div>
     </div>
   </div>
+
 
 </body>
 </html>
--->
-    <?php
+
+
+';
 
     require_once('./vendor/tecnickcom/tcpdf/tcpdf.php');
 
     $pdf = new TCPDF();
+    $pdf->SetCreator(PDF_CREATOR);
+    $pdf->SetAuthor('Renzo Gamboa');
+    $pdf->SetTitle('Reporte de movimientos');
 
-    // SET DOCUMENT INFORMATION
-    $pdf->setCreator(PDF_AUTHOR);
-    $pdf->setAuthor('Nerio Yucra');
-    $pdf->setTitle('Reporte de Movimientos');
 
-    // set margins
+    //asignar márgenes
     $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-
-    // set auto page breaks
+    //Salto de página automático
     $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
-    
-    // set font
-    $pdf->SetFont('dejavusans', '', 10);
+
+
+    //Va por secciones si quieres utilizar distintas fuentes(tipo de fuente, grosor, tamaño de la letra)
+    $pdf->SetFont('courier', '', 9);
+    // add a page
+    //Añadir nueva página (tiene muchas propiedades, pero le dejamos en vacío para que estén por defecto)
+    $pdf->AddPage();
+
+
+    // output the HTML content
+    //Generar el contenido html
+    $pdf->writeHTML($contenido_pdf);
+
+
+    //Close and output PDF document
+    $pdf->Output('reporte de movimientos.pdf', 'I');
 }
