@@ -91,4 +91,26 @@ class BienModel
         }
         return $arrRespuesta;
     }
+
+    public function buscarTodosLosBienes()
+{
+    $arrRespuesta = array();
+    $sql = $this->conexion->query("
+SELECT 
+            b.*,
+            i.detalle AS ingreso_detalle,
+            a.detalle AS ambiente_detalle,
+            u.nombres_apellidos AS usuario_registrante
+        FROM bienes b
+        LEFT JOIN ingreso_bienes i ON b.id_ingreso_bienes = i.id
+        LEFT JOIN ambientes_institucion a ON b.id_ambiente = a.id
+        LEFT JOIN usuarios u ON b.usuario_registro = u.id
+    ");
+
+    while ($objeto = $sql->fetch_object()) {
+        array_push($arrRespuesta, $objeto);
+    }
+    return $arrRespuesta;
+}
+
 }

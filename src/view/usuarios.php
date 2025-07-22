@@ -51,6 +51,7 @@
                     <input type="hidden" id="filtro_dni" value="">
                     <input type="hidden" id="filtro_nomap" value="">
                     <input type="hidden" id="filtro_estado" value="">
+                    <a href="<?php BASE_URL?>?views=reporte-usuarios" class="btn btn-success"><i class="fa fa-file-excel"></i></a>
                     <div>
                         <label for="cantidad_mostrar">Mostrar</label>
                         <select name="cantidad_mostrar" id="cantidad_mostrar" class="form-control-sm" onchange="numero_pagina(1);">

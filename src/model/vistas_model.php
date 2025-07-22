@@ -4,8 +4,8 @@ class vistaModelo
     protected static function obtener_vista($vista)
     {
 
-        $palabras_permitidas_n1 = ['inicio', 'usuarios', 'nuevo-usuario', 'instituciones', 'nueva-institucion', 'ambientes', 'nuevo-ambiente', 'bienes',  'nuevo-bien', 'movimientos', 'nuevo-movimiento', 'correo', 'imprimir-movimiento', 'reporte-bienes'];
-
+        $palabras_permitidas_n1 = ['inicio', 'reporte-usuarios', 'reporte-ambientes', 'reporte-instituciones', 'reporte-bienes', 'imprimir-movimiento', 'usuarios', 'nuevo-usuario', 'instituciones', 'nueva-institucion', 'ambientes', 'nuevo-ambiente', 'bienes',  'nuevo-bien', 'movimientos', 'nuevo-movimiento'];
+        
         if (in_array($vista, $palabras_permitidas_n1)) {
 
             if (is_file("./src/view/" . $vista . ".php")) {

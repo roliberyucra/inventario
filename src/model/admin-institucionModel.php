@@ -78,6 +78,28 @@ class InstitucionModel
         return $arrRespuesta;
     }
 
+    public function obtenerTodasLasInstituciones()
+{
+    $arrRespuesta = array();
+
+    $sql = $this->conexion->query("
+        SELECT 
+            i.id, 
+            i.beneficiario, 
+            i.cod_modular, 
+            i.ruc, 
+            i.nombre,
+            u.nombres_apellidos AS beneficiario_nombre
+        FROM institucion i
+        LEFT JOIN usuarios u ON i.beneficiario = u.id
+    ");
+
+    while ($objeto = $sql->fetch_object()) {
+        array_push($arrRespuesta, $objeto);
+    }
+
+    return $arrRespuesta;
+}
 
 
 }

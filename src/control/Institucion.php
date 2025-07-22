@@ -177,3 +177,18 @@ if ($tipo == "datos_registro") {
     }
     echo json_encode($arr_Respuesta);
 }
+
+if ($tipo == "buscar_instituciones") {
+    $arr_Respuesta = array('status' => false, 'msg' => 'Error_sesion');
+
+    if ($objSesion->verificar_sesion_si_activa($id_sesion, $token)) {
+
+        $instituciones = $objInstitucion->obtenerTodasLasInstituciones();
+
+        $arr_Respuesta['status'] = true;
+        $arr_Respuesta['msg'] = 'correcto';
+        $arr_Respuesta['instituciones'] = $instituciones;
+    }
+
+    echo json_encode($arr_Respuesta);
+}
