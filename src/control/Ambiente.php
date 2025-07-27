@@ -180,3 +180,17 @@ if ($tipo == "buscar_bienes") {
     echo json_encode($arr_Respuesta);
 }
 
+if ($tipo == "buscar_ambientes") {
+    $arr_Respuesta = array('status' => false, 'ambientes' => []);
+
+    if ($objSesion->verificar_sesion_si_activa($id_sesion, $token)) {
+        $ambientes = $objAmbiente->obtenerTodosLosAmbientes(); // ya existe en tu modelo
+
+        if ($ambientes) {
+            $arr_Respuesta['status'] = true;
+            $arr_Respuesta['ambientes'] = $ambientes;
+        }
+    }
+
+    echo json_encode($arr_Respuesta);
+}

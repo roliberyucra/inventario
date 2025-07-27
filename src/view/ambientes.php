@@ -41,6 +41,7 @@
                     <input type="hidden" id="filtro_codigo" value="">
                     <input type="hidden" id="filtro_ambiente" value="">
                      <a href="<?php BASE_URL?>?views=reporte-ambientes" class="btn btn-success"><i class="fa fa-file-excel"></i></a>
+                     <a href="<?php BASE_URL;?>?views=reporte-ambientes-pdf" class="btn btn-danger" id="btnExportarPDF" target="_blank"><i class="fa fa-file-pdf"></i></a>
                     <div>
                         <label for="cantidad_mostrar">Mostrar</label>
                         <select name="cantidad_mostrar" id="cantidad_mostrar" class="form-control-sm" onchange="numero_pagina(1);">
