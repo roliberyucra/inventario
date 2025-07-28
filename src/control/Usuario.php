@@ -359,16 +359,15 @@ try {
 }
 
 if ($tipo == "buscar_usuarios") {
-    $arr_Respuesta = array('status' => false, 'msg' => 'Error_sesion');
+    $respuesta = ['status' => false, 'usuarios' => []];
 
     if ($objSesion->verificar_sesion_si_activa($id_sesion, $token)) {
-
-        $usuarios = $objUsuario->obtenerTodosLosUsuarios();
-
-        $arr_Respuesta['status'] = true;
-        $arr_Respuesta['msg'] = 'correcto';
-        $arr_Respuesta['usuarios'] = $usuarios;
+        $usuarios = $objUsuario->obtenerTodosLosUsuarios(); // método en tu modelo
+        if ($usuarios) {
+            $respuesta['status'] = true;
+            $respuesta['usuarios'] = $usuarios;
+        }
     }
 
-    echo json_encode($arr_Respuesta);
+    echo json_encode($respuesta);
 }

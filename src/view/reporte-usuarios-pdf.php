@@ -1,6 +1,4 @@
 <?php
-ob_start();
-
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
@@ -8,15 +6,14 @@ if (session_status() == PHP_SESSION_NONE) {
 require_once './vendor/autoload.php';
 require_once './vendor/tecnickcom/tcpdf/tcpdf.php';
 
-// Verifica que la sesión esté activa
 if (!isset($_SESSION['sesion_id']) || !isset($_SESSION['sesion_token'])) {
     die("Sesión no iniciada");
 }
 
-// Llama al backend para obtener los datos de instituciones
+// Obtener datos desde el backend
 $curl = curl_init();
 curl_setopt_array($curl, array(
-    CURLOPT_URL => BASE_URL_SERVER . "src/control/Institucion.php?tipo=buscar_instituciones&sesion=" . $_SESSION['sesion_id'] . "&token=" . $_SESSION['sesion_token'],
+    CURLOPT_URL => BASE_URL_SERVER."src/control/Usuario.php?tipo=buscar_usuarios&sesion=".$_SESSION['sesion_id']."&token=".$_SESSION['sesion_token'],
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_CUSTOMREQUEST => "GET",
 ));
@@ -25,26 +22,22 @@ curl_close($curl);
 
 $respuesta = json_decode($response);
 
-// Validar respuesta
-if (!isset($respuesta->instituciones) || !is_array($respuesta->instituciones)) {
-    ob_end_clean();
-    echo "Error al obtener las instituciones.";
-    echo "<pre>"; print_r($respuesta); echo "</pre>";
+// Validar
+if (!isset($respuesta->usuarios) || !is_array($respuesta->usuarios)) {
+    echo "Error al obtener los usuarios.";
     exit;
 }
 
-
-// Configuración del PDF
+// Crear PDF
 $pdf = new TCPDF('L', 'mm', 'A4', true, 'UTF-8', false);
 $pdf->SetCreator('SIGI');
 $pdf->SetAuthor('SIGI');
-$pdf->SetTitle('Reporte de Instituciones');
+$pdf->SetTitle('Reporte de Ambientes');
 $pdf->SetMargins(10, 20, 10);
 $pdf->AddPage();
 
-
-// Título
-$contenido_pdf = '<h2 style="text-align:center;">Reporte de Instituciones</h2>';
+// Crear el contenido HTML
+$html = '<h2 style="text-align:center;">REPORTE DE USUARIOS</h2>';
 
 // Tabla
 $html = '
@@ -139,28 +132,31 @@ $html = '
     <thead>
     <tr>
       <th><b>N°</b></th>
-      <th><b>BENEFICIARIO</b></th>
-      <th><b>CODIGO MODULAR</b></th>
-      <th><b>ENCARGADO</b></th>
-      <th><b>CÓDIGO</b></th>
+      <th><b>DNI</b></th>
+      <th><b>Nombres y Apellidos</b></th>
+      <th><b>Correo</b></th>
+      <th><b>Teléfono</b></th>
+      <th><b>Fecha de Registro</b></th>
     </tr>
   </thead>
     <tbody>';
 
 $contador = 1;
-foreach ($respuesta->instituciones as $institucion) {
+foreach ($respuesta->usuarios as $usuario) {
     $html .= '<tr>';
     $html .= '<td>'.$contador++.'</td>';
-    $html .= '<td>'.htmlspecialchars($institucion->beneficiario_nombre).'</td>';
-    $html .= '<td>'.htmlspecialchars($institucion->cod_modular).'</td>';
-    $html .= '<td>'.htmlspecialchars($institucion->ruc).'</td>';
-    $html .= '<td>'.htmlspecialchars($institucion->nombre).'</td>';
+    $html .= '<td>'.htmlspecialchars($usuario->dni).'</td>';
+    $html .= '<td>'.htmlspecialchars($usuario->nombres_apellidos).'</td>';
+    $html .= '<td>'.htmlspecialchars($usuario->correo).'</td>';
+    $html .= '<td>'.htmlspecialchars($usuario->telefono).'</td>';
+    $html .= '<td>'.htmlspecialchars($usuario->fecha_registro).'</td>';
     $html .= '</tr>';
 }
 $html .= '
   </tbody>
 </table>';
 
+// Crear PDF
 $html .= '</tbody></table>';
 
 // Imprimir contenido
@@ -168,4 +164,4 @@ $pdf->writeHTML($html, true, false, true, false, '');
 
 ob_clean(); // Limpia la salida previa
 // Descargar
-$pdf->Output('Reporte_Instituciones.pdf', 'I'); // 'I' muestra en navegador, 'D' descarga directamente
+$pdf->Output('Reporte_Usuarios.pdf', 'I'); // 'I' muestra en navegador, 'D' descarga directamente
