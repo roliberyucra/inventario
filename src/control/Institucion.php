@@ -180,16 +180,15 @@ if ($tipo == "datos_registro") {
 }
 
 if ($tipo == "buscar_instituciones") {
-    $arr_Respuesta = array('status' => false, 'msg' => 'Error_sesion');
-
+    $arr_Respuesta = ['status' => false, 'instituciones' => []];
     if ($objSesion->verificar_sesion_si_activa($id_sesion, $token)) {
-
-        $instituciones = $objInstitucion->obtenerTodasLasInstituciones();
-
-        $arr_Respuesta['status'] = true;
-        $arr_Respuesta['msg'] = 'correcto';
-        $arr_Respuesta['instituciones'] = $instituciones;
+        $instituciones = $objInstitucion->obtenerTodasLasInstituciones(); // método ya existente
+        if ($instituciones) {
+            $arr_Respuesta['status'] = true;
+            $arr_Respuesta['instituciones'] = $instituciones;
+        }
     }
-
     echo json_encode($arr_Respuesta);
 }
+
+
