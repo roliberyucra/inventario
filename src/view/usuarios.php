@@ -53,7 +53,7 @@
                     <input type="hidden" id="filtro_estado" value="">
                     <div>
                         <a href="<?php BASE_URL?>?views=reporte-usuarios" class="btn btn-success"><i class="fa fa-file-excel"></i></a>
-                        <a href="<?php BASE_URL?>?views=reporte-usuarios-pdf" target="_blank" class="btn btn-danger btn-sm"><i class="fa fa-file-pdf-o"></i> PDF</a>
+                        <a href="<?php BASE_URL?>?views=reporte-usuarios-pdf" class="btn btn-danger" target="_blank"><i class="fa fa-file-pdf"></i></a>
                     </div>
                     <div>
                         <label for="cantidad_mostrar">Mostrar</label>
