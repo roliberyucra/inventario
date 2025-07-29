@@ -143,6 +143,9 @@ $contenido_pdf = '
 <br>
 <br>
 
+<p>ENTIDAD <span class="subrayado">: DIRECCION REGIONAL DE EDUCACION - AYACUCHO</span></p>
+  <p>ÁREA <span class="subrayado">: OFICINA DE ADMINISTRACIÓN</span></p>
+
   <table border="1">
     <thead>
     <tr>
