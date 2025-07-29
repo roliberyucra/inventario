@@ -47,7 +47,7 @@ $pdf->AddPage();
 $contenido_pdf = '<h2 style="text-align:center;">Reporte de Instituciones</h2>';
 
 // Tabla
-$html = '
+$contenido_pdf = '
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -128,10 +128,25 @@ $html = '
 </head>
 <body>
 
-<br>
-<br>
+<table style="width:100%; border: none;">
+  <tr>
+    <td style="width:20%; text-align:left; border:none;">
+      <img src="./src/view/pp/assets/images/gob.jpg" width="60">
+    </td>
+    <td style="width:60%; text-align:center; border:none;">
+      <h4 style="margin:0;">GOBIERNO REGIONAL DE AYACUCHO</h4>
+      <h2 style="margin:0;">DIRECCIÓN REGIONAL DE EDUCACIÓN DE AYACUCHO</h2>
+      <h4 style="margin:0;">DIRECCIÓN DE ADMINISTRACIÓN</h4>
+    </td>
+    <td style="width:20%; text-align:right; border:none;">
+      <img src="./src/view/pp/assets/images/drea.jpg" width="60">
+    </td>
+  </tr>
+</table>
 
-  <h2><i>Reporte de instituciones</i></h2>
+<br>
+<br>
+<h2 style="margin:0;">Reporte de Instituciones</h2>
 <br>
 <br>
 
@@ -149,22 +164,20 @@ $html = '
 
 $contador = 1;
 foreach ($respuesta->instituciones as $institucion) {
-    $html .= '<tr>';
-    $html .= '<td>'.$contador++.'</td>';
-    $html .= '<td>'.htmlspecialchars($institucion->beneficiario_nombre).'</td>';
-    $html .= '<td>'.htmlspecialchars($institucion->cod_modular).'</td>';
-    $html .= '<td>'.htmlspecialchars($institucion->ruc).'</td>';
-    $html .= '<td>'.htmlspecialchars($institucion->nombre).'</td>';
-    $html .= '</tr>';
+    $contenido_pdf .= '<tr>';
+    $contenido_pdf .= '<td>'.$contador++.'</td>';
+    $contenido_pdf .= '<td>'.htmlspecialchars($institucion->beneficiario_nombre).'</td>';
+    $contenido_pdf .= '<td>'.htmlspecialchars($institucion->cod_modular).'</td>';
+    $contenido_pdf .= '<td>'.htmlspecialchars($institucion->ruc).'</td>';
+    $contenido_pdf .= '<td>'.htmlspecialchars($institucion->nombre).'</td>';
+    $contenido_pdf .= '</tr>';
 }
-$html .= '
+$contenido_pdf .= '
   </tbody>
 </table>';
 
-$html .= '</tbody></table>';
-
 // Imprimir contenido
-$pdf->writeHTML($html, true, false, true, false, '');
+$pdf->writeHTML($contenido_pdf, true, false, true, false, '');
 
 ob_clean(); // Limpia la salida previa
 // Descargar

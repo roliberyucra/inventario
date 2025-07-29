@@ -39,10 +39,10 @@ $pdf->SetMargins(10, 20, 10);
 $pdf->AddPage();
 
 // Título
-$html = '<h2 style="text-align:center;">Reporte de Ambientes</h2>';
+$contenido_pdf = '<h2 style="text-align:center;">Reporte de Ambientes</h2>';
 
 // Tabla
-$html = '
+$contenido_pdf = '
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -126,9 +126,30 @@ $html = '
 <br>
 <br>
 
-  <h2><i>Reporte de ambientes</i></h2>
+<table style="width:100%; border: none;">
+  <tr>
+    <td style="width:20%; text-align:left; border:none;">
+      <img src="./src/view/pp/assets/images/gob.jpg" width="60">
+    </td>
+    <td style="width:60%; text-align:center; border:none;">
+      <h4 style="margin:0;">GOBIERNO REGIONAL DE AYACUCHO</h4>
+      <h2 style="margin:0;">DIRECCIÓN REGIONAL DE EDUCACIÓN DE AYACUCHO</h2>
+      <h4 style="margin:0;">DIRECCIÓN DE ADMINISTRACIÓN</h4>
+    </td>
+    <td style="width:20%; text-align:right; border:none;">
+      <img src="./src/view/pp/assets/images/drea.jpg" width="60">
+    </td>
+  </tr>
+</table>
+
 <br>
 <br>
+<h2 style="margin:0;">Reporte de Ambientes</h2>
+<br>
+<br>
+
+<p>ENTIDAD <span class="subrayado">: DIRECCION REGIONAL DE EDUCACION - AYACUCHO</span></p>
+  <p>ÁREA <span class="subrayado">: OFICINA DE ADMINISTRACIÓN</span></p>
 
   <table border="1">
     <thead>
@@ -146,24 +167,21 @@ $html = '
 
 $contador = 1;
 foreach ($respuesta->ambientes as $ambiente) {
-    $html .= '<tr>';
-    $html .= '<td>'.$contador++.'</td>';
-    $html .= '<td>'.htmlspecialchars($ambiente->nombre_institucion).'</td>';
-    $html .= '<td>'.htmlspecialchars($ambiente->encargado).'</td>';
-    $html .= '<td>'.htmlspecialchars($ambiente->codigo).'</td>';
-    $html .= '<td>'.htmlspecialchars($ambiente->detalle).'</td>';
-    $html .= '<td>'.htmlspecialchars($ambiente->otros_detalle).'</td>';
-    $html .= '</tr>';
+    $contenido_pdf .= '<tr>';
+    $contenido_pdf .= '<td>'.$contador++.'</td>';
+    $contenido_pdf .= '<td>'.htmlspecialchars($ambiente->nombre_institucion).'</td>';
+    $contenido_pdf .= '<td>'.htmlspecialchars($ambiente->encargado).'</td>';
+    $contenido_pdf .= '<td>'.htmlspecialchars($ambiente->codigo).'</td>';
+    $contenido_pdf .= '<td>'.htmlspecialchars($ambiente->detalle).'</td>';
+    $contenido_pdf .= '<td>'.htmlspecialchars($ambiente->otros_detalle).'</td>';
+    $contenido_pdf .= '</tr>';
 }
-$html .= '
+$contenido_pdf .= '
   </tbody>
 </table>';
 
-
-$html .= '</tbody></table>';
-
 // Imprimir contenido
-$pdf->writeHTML($html, true, false, true, false, '');
+$pdf->writeHTML($contenido_pdf, true, false, true, false, '');
 
 ob_clean(); // Limpia la salida previa
 // Descargar

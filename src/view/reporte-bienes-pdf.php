@@ -42,7 +42,7 @@ $pdf->AddPage();
 $contenido_pdf = '<h2 style="text-align:center;">Reporte de Bienes</h2>';
 
 // Tabla
-$html = '
+$contenido_pdf = '
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -123,12 +123,30 @@ $html = '
 </head>
 <body>
 
+<table style="width:100%; border: none;">
+  <tr>
+    <td style="width:20%; text-align:left; border:none;">
+      <img src="./src/view/pp/assets/images/gob.jpg" width="60">
+    </td>
+    <td style="width:60%; text-align:center; border:none;">
+      <h4 style="margin:0;">GOBIERNO REGIONAL DE AYACUCHO</h4>
+      <h2 style="margin:0;">DIRECCIÓN REGIONAL DE EDUCACIÓN DE AYACUCHO</h2>
+      <h4 style="margin:0;">DIRECCIÓN DE ADMINISTRACIÓN</h4>
+    </td>
+    <td style="width:20%; text-align:right; border:none;">
+      <img src="./src/view/pp/assets/images/drea.jpg" width="60">
+    </td>
+  </tr>
+</table>
+
+<br>
+<br>
+<h2 style="margin:0;">Reporte de Bienes</h2>
 <br>
 <br>
 
-  <h2><i>Reporte de bienes</i></h2>
-<br>
-<br>
+<p>ENTIDAD <span class="subrayado">: DIRECCION REGIONAL DE EDUCACION - AYACUCHO</span></p>
+  <p>ÁREA <span class="subrayado">: OFICINA DE ADMINISTRACIÓN</span></p>
 
   <table border="1">
     <thead>
@@ -147,26 +165,24 @@ $html = '
 
 $contador = 1;
 foreach ($respuesta->bienes as $bien) {
-    $html .= '<tr>';
-    $html .= '<td>'.$contador++.'</td>';
-    $html .= '<td>'.htmlspecialchars($bien->cod_patrimonial).'</td>';
-    $html .= '<td>'.htmlspecialchars($bien->denominacion).'</td>';
-    $html .= '<td>'.htmlspecialchars($bien->marca).'</td>';
-    $html .= '<td>'.htmlspecialchars($bien->modelo).'</td>';
-    $html .= '<td>'.htmlspecialchars($bien->color).'</td>';
-    $html .= '<td>'.htmlspecialchars($bien->estado_conservacion).'</td>';
-    $html .= '<td>'.htmlspecialchars($bien->ambiente_detalle).'</td>';
-    $html .= '</tr>';
+    $contenido_pdf .= '<tr>';
+    $contenido_pdf .= '<td>'.$contador++.'</td>';
+    $contenido_pdf .= '<td>'.htmlspecialchars($bien->cod_patrimonial).'</td>';
+    $contenido_pdf .= '<td>'.htmlspecialchars($bien->denominacion).'</td>';
+    $contenido_pdf .= '<td>'.htmlspecialchars($bien->marca).'</td>';
+    $contenido_pdf .= '<td>'.htmlspecialchars($bien->modelo).'</td>';
+    $contenido_pdf .= '<td>'.htmlspecialchars($bien->color).'</td>';
+    $contenido_pdf .= '<td>'.htmlspecialchars($bien->estado_conservacion).'</td>';
+    $contenido_pdf .= '<td>'.htmlspecialchars($bien->ambiente_detalle).'</td>';
+    $contenido_pdf .= '</tr>';
 }
 
-$html .= '
+$contenido_pdf .= '
   </tbody>
 </table>';
 
-$html .= '</tbody></table>';
-
 // Renderizar en PDF
-$pdf->writeHTML($html, true, false, true, false, '');
+$pdf->writeHTML($contenido_pdf, true, false, true, false, '');
 
 ob_clean(); // Limpia la salida previa
 $pdf->Output('Reporte_Bienes.pdf', 'I');
