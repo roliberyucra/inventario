@@ -177,6 +177,22 @@ foreach ($respuesta->ambientes as $ambiente) {
     $contenido_pdf .= '</tr>';
 }
 $contenido_pdf .= '
+
+  <p style="text-align: right; padding-right: 40px;">
+  Ayacucho,_____de____2025
+</p>
+
+
+  <div class="firmas">
+    <div class="firma">
+      <div class="firma-linea">------------------------------</div>
+      <div>ENTREGUE CONFORME</div>
+    </div>
+    <div class="firma">
+      <div class="firma-linea">------------------------------</div>
+      <div>RECIBÍ CONFORME</div>
+    </div>
+  </div>
   </tbody>
 </table>';
 
