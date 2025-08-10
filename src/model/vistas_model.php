@@ -15,6 +15,7 @@ class vistaModelo
             }
         } elseif ($vista == "inicio" || $vista == "index") {
             $contenido = "inicio.php";
+            echo $vista;
         } elseif ($vista == "login") {
             $contenido = "login";
         } elseif ($vista == "reset-password") {
