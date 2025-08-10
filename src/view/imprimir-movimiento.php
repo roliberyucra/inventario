@@ -115,9 +115,12 @@ $curl = curl_init(); //inicia la sesión cURL
 </head>
 <body>
 
+<br>
+<br>
 
-  <h2>Papeleta de Rotación de Bienes</h2>
-
+  <h2><i>Papeleta de Rotación de Bienes</i></h2>
+<br>
+<br>
 
   <p>ENTIDAD <span class="subrayado">: DIRECCION REGIONAL DE EDUCACION - AYACUCHO</span></p>
   <p>ÁREA <span class="subrayado">: OFICINA DE ADMINISTRACIÓN</span></p>
@@ -131,13 +134,13 @@ $curl = curl_init(); //inicia la sesión cURL
   <table border="1">
     <thead>
       <tr>
-        <th>ITEM</th>
-        <th>CÓDIGO PATRIMONIAL</th>
-        <th>NOMBRE DEL BIEN</th>
-        <th>MARCA</th>
-        <th>COLOR</th>
-        <th>MODELO</th>
-        <th>ESTADO</th>
+        <th><b>ITEM</b></th>
+        <th><b>CÓDIGO PATRIMONIAL</b></th>
+        <th><b>NOMBRE DEL BIEN</b></th>
+        <th><b>MARCA</b></th>
+        <th><b>COLOR</b></th>
+        <th><b>MODELO</b></th>
+        <th><b>ESTADO</b></th>
       </tr>
     </thead>
     <tbody>
@@ -189,9 +192,42 @@ $contenido_pdf .= '
 
     require_once('./vendor/tecnickcom/tcpdf/tcpdf.php');
 
-    $pdf = new TCPDF();
+    class MYPDF extends TCPDF {
+
+      //Page header
+      public function Header() {
+        // Logo
+        
+        $this->Image('./src/view/pp/assets/images/gob.jpg', 10, 10, 22, '', 'JPG', '', 'T', false, 300, '', false, false, 0, false, false, false);
+        $this->Image('./src/view/pp/assets/images/drea.jpg', 180, 10, 22, '', 'JPG', '', 'T', false, 300, '', false, false, 0, false, false, false);
+        // Set font
+        $this->SetY(10);
+        $this->SetFont('helvetica', 'B', 10);
+        // Title
+        $this->Cell(0, 15, 'GOBIERNO REGIONAL DE AYACUCHO', 0, false, 'C', 0, '', 0, false, 'M', 'M');
+        $this->Ln(8);
+        $this->SetFont('helvetica', 'B', 13);
+        $this->Cell(0, 15, 'DIRECCIÓN REGIONAL DE EDUCACIÓN DE AYACUCHO', 0, false, 'C', 0, '', 0, false, 'M', 'M');
+        $this->Ln(8);
+        $this->SetFont('helvetica', 'B', 10);
+        $this->Cell(0, 15, 'DIRECCIÓN DE ADMINISTRACIÓN', 0, false, 'C', 0, '', 0, false, 'M', 'M');
+      }
+    
+      // Page footer
+      public function Footer() {
+        // Position at 15 mm from bottom
+        $this->SetY(-15);
+        // Set font
+        $this->SetFont('helvetica', 'I', 8);
+        // Page number
+        $this->Cell(0, 10, 'Página '.$this->getAliasNumPage().' de '.$this->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
+      }
+    }
+    
+    // create new PDF document
+    $pdf = new MYPDF();
     $pdf->SetCreator(PDF_CREATOR);
-    $pdf->SetAuthor('Renzo Gamboa');
+    $pdf->SetAuthor('Roliber Yucra');
     $pdf->SetTitle('Reporte de movimientos');
 
 
