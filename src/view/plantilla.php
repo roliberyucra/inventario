@@ -57,7 +57,6 @@ if ($vista == "login" || $vista == "404" || $vista == "reset-password") {
 if ($vista != './src/view/imprimir-movimiento.php' && $vista != './src/view/reporte-bienes.php' &&  $vista != './src/view/reporte-usuarios.php' &&  $vista != './src/view/reporte-ambientes.php' &&  $vista != './src/view/reporte-instituciones.php') {
     include "./src/view/include/header.php";
 }
-echo $vista;
     include $vista;
     
 if ($vista != './src/view/imprimir-movimiento.php' &&  $vista != './src/view/reporte-bienes.php' &&  $vista != './src/view/reporte-usuarios.php' &&  $vista != './src/view/reporte-ambientes.php' &&  $vista != './src/view/reporte-instituciones.php') {
