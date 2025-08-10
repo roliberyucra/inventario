@@ -27,7 +27,6 @@ class vistasControlador extends vistaModelo
                 $respuesta = vistaModelo::obtener_vista($ruta[0]);
             } else {
                 $respuesta = "inicio.php";
-                var_dump($_GET['views']);
             }
         }
         return $respuesta;
