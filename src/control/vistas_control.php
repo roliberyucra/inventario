@@ -13,22 +13,22 @@ class vistasControlador extends vistaModelo
         if (!isset($_SESSION['sesion_id'])) {
             if (isset($_GET['views'])) {
                 $ruta = explode("/", $_GET['views']);
-                if ($ruta[0]=="reset-password") {
+                if ($ruta[0] == "reset-password") {
                     $respuesta = "reset-password";
-                }else {
+                } else {
                     $respuesta = "login";
                 }
             } else {
                 $respuesta = "login";
             }
         } else {
-        if (isset($_GET['views'])) {
-            $ruta = explode("/", $_GET['views']);
-            $respuesta = vistaModelo::obtener_vista($ruta[0]);
-        } else {
-            $respuesta = "inicio.phpcontrol";
-            echo $_GET['views'];
-        }
+            if (isset($_GET['views'])) {
+                $ruta = explode("/", $_GET['views']);
+                $respuesta = vistaModelo::obtener_vista($ruta[0]);
+            } else {
+                $respuesta = "inicio.php";
+                var_dump($_GET['views']);
+            }
         }
         return $respuesta;
     }
